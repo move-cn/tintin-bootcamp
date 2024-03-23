@@ -27,7 +27,7 @@
 ### 创建项目
 
 ```shell
-sui move sui move new hello_move
+sui move new hello_move
 ```
 
 ```move
