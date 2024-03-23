@@ -30,13 +30,33 @@
 sui move sui move new hello_move
 ```
 
+```move
+module hello_move::hello {
+    use std::ascii::{String, string};
+    use sui::transfer::transfer;
+    use sui::tx_context::{TxContext, sender};
+
+    struct Hello {
+        say: String
+    }
+
+    fun init(ctx: &mut TxContext) {
+        let hello_move = Hello {
+            say: string(b"move"),
+        };
+        transfer(hello_move, sender(ctx))
+    }
+}
+```
+
+
 ### 发布上链
 ```shell
 sui sui client publish --gas-budget 100000000
 ```
 
 
-# 提交作业 hello move的作业
+# 提交作业 hello move的作业  30人民币等值SUI的奖励
 - [let's move](https://github.com/move-cn/letsmove) 
 
 

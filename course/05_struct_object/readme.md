@@ -1,3 +1,8 @@
 # struct
 
+```rust
+
+```
+
+
 # object
