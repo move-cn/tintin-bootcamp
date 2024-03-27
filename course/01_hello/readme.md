@@ -9,6 +9,18 @@
 ## 安装好Sui Cli （move编译器）
 -  [sui安装文档](https://docs.sui.io/guides/developer/getting-started/sui-install)
 
+### docker 方式的安装
+pull 镜像  `devnet` 可以换成 `testnet` `mainnet`
+```shell
+  docker pull mysten/sui-tools:devnet
+``` 
+运行镜像
+```shell
+  docker run --name suidevcontainer -itd mysten/sui-tools:devnet
+
+  docker exec -it suidevcontainer bash
+```    
+
 ## 安装Sui钱包
 * [Sui Wallet](https://chrome.google.com/webstore/detail/opcgpfmipidbgpenhmajoajpbobppdil)  |    [教程-如何开始使用Sui钱包](https://mp.weixin.qq.com/s/-_hCFUO-62hv9amPzmJdeg)
 * [Suiet Wallet](https://chrome.google.com/webstore/detail/suiet-sui-wallet/khpkpbbcccdmmclmpigdgddabeilkdpd)   |  [教程-如何获取Suiet钱包](https://suiet.app/blog/what-is-suiet-sui-wallet-how-to-use-sui-wallet)
