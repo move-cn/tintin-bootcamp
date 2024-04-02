@@ -21,6 +21,17 @@ pull 镜像  `devnet` 可以换成 `testnet` `mainnet`
   docker exec -it suidevcontainer bash
 ```    
 
+## 如何验证自己是否安装好
+```shell
+sui --version
+```
+
+输出
+```shell 
+sui 1.22.0-0362997459
+```
+
+
 ## 安装Sui钱包
 * [Sui Wallet](https://chrome.google.com/webstore/detail/opcgpfmipidbgpenhmajoajpbobppdil)  |    [教程-如何开始使用Sui钱包](https://mp.weixin.qq.com/s/-_hCFUO-62hv9amPzmJdeg)
 * [Suiet Wallet](https://chrome.google.com/webstore/detail/suiet-sui-wallet/khpkpbbcccdmmclmpigdgddabeilkdpd)   |  [教程-如何获取Suiet钱包](https://suiet.app/blog/what-is-suiet-sui-wallet-how-to-use-sui-wallet)
