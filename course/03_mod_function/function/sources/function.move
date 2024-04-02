@@ -1,6 +1,6 @@
 module function::function {
 
-    fun init(){
+    fun init(_:&mut TxContext){
 
     }
 
@@ -11,7 +11,7 @@ module function::function {
     public fun b(){
     }
 
-    public(friend) fun c(){}
+    public(package) fun c(){}
 
     public entry fun d(){
     }
@@ -20,6 +20,8 @@ module function::function {
         a > b
     }
 
-
+    public  fun f2(a:u32, b:u32): (bool,bool){
+        (a > b, a < b)
+    }
 
 }
