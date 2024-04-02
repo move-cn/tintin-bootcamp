@@ -8,7 +8,7 @@
 
 ## 安装好Sui Cli （move编译器）
 -  [sui安装文档](https://docs.sui.io/guides/developer/getting-started/sui-install)
-
+-  [预编译的下载包](https://github.com/MystenLabs/sui/releases)
 ### docker 方式的安装
 pull 镜像  `devnet` 可以换成 `testnet` `mainnet`
 ```shell
