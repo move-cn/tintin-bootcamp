@@ -9,9 +9,9 @@ Let也可以在不将值绑定到局部的情况下使用。
 ```rust
 let x;
 if (cond) {
-  x = 1
+  x = 1u32
 } else {
-  x = 0
+  x = 0u32
 }
 ```
 
@@ -27,25 +27,30 @@ x + x // ERROR!
 
 必须是 _a-zA-Z 开始 只能包含字母数字和下划线 _
 
-```rust
-let s = b"hello";
-let foo = Foo { f: 0 };
+```move
+module var::var {
 
-let s2 = s; // copy
-let foo2 = foo; // move
-let coin2 = coin; // copy
+    use sui::tx_context::{TxContext};
+    
+    #[allow(unused_variable)]
+    fun init(_: &mut TxContext) {
+    
+    let s = b"hello";
+    
+    let s2 = s;
+    
+    let x = 0;
+    let b = false;
+    let addr = @0x42;
+    let x_ref = &x;
+    
+    let b2 = b;
+    let addr2 = @0x42;
+    let x_ref2 = x_ref;
+}
 
-let x = 0;
-let b = false;
-let addr = @0x42;
-let x_ref = &x;
-let coin_ref = &mut coin2;
+}
 
-let x2 = x; // copy
-let b2 = b; // copy
-let addr2 = @0x42; // copy
-let x_ref2 = x_ref; // copy
-let coin_ref2 = coin_ref; // copy
 ```
 
 

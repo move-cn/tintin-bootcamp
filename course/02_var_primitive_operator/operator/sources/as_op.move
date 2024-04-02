@@ -2,6 +2,7 @@ module operator::as_op {
 
     use sui::tx_context::{TxContext};
 
+    #[allow(unused_variable)]
     fun init(ctx: &mut TxContext) {
 
         let a : u16 = 1000;
