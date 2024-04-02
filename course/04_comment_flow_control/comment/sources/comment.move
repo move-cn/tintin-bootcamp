@@ -5,7 +5,7 @@ module comment::comment {
     use sui::tx_context::TxContext;
 
     /// this is docs comment
-    fun init(ctx: &mut TxContext) {
+    fun init(_ctx: &mut TxContext) {
 
     }
 
