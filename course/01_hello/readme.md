@@ -35,6 +35,21 @@ pull 镜像  `devnet` 可以换成 `testnet` `mainnet`
 -  [水龙头1](https://github.com/uvd/sui-faucet)
 -  [水龙头2](https://docs.sui.io/guides/developer/getting-started/get-coins)
 
+```shell
+sui client addresses 
+```
+
+```shell
+
+curl --location --request POST 'https://faucet.devnet.sui.io/gas' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "FixedAmountRequest": {
+        "recipient": "0xff71ff2dfa9f5ba0176fb40fdda9d13d738ec97143b46bdfa1addc09e2263b02"
+    }
+}'
+```
+
 
 ### 创建项目
 
@@ -45,18 +60,21 @@ sui move new hello_move
 ```move
 module hello_move::hello {
     use std::ascii::{String, string};
+    use sui::object::{Self,UID};
     use sui::transfer::transfer;
     use sui::tx_context::{TxContext, sender};
 
-    struct Hello {
+    public struct Hello has key{
+        id:UID,
         say: String
     }
 
     fun init(ctx: &mut TxContext) {
         let hello_move = Hello {
+            id:object::new(ctx),
             say: string(b"move"),
         };
-        transfer(hello_move, sender(ctx))
+        transfer(hello_move, sender(ctx));
     }
 }
 ```
