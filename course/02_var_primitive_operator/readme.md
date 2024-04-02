@@ -1,5 +1,5 @@
 ## 资源
-- [ppt]()
+- [ppt](https://docs.google.com/presentation/d/14Y5Au0GQkOoRpjKQtwk9Ib41UvQaqbW7QQATL1z0SPw)
 
 # 变量
 Move程序使用let将变量名绑定到值:

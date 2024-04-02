@@ -1,3 +1,6 @@
+## 资料
+- [ppt](https://docs.google.com/presentation/d/1Rj7ZzdVsJCUUucYkJ9X6X3al3ZSYmJEWveAEoYpl4Fg)
+
 ## 什么是包
 包是同一个合约地址包含的全部代码的集合，由很多模块组成
 

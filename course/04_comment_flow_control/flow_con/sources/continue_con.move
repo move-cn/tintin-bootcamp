@@ -15,7 +15,7 @@ module flow_con::continue_con {
         while (i < n) {
         i = i + 1;
         if (i % 20 == 0) continue;
-        sum = sum + i;
+            sum = sum + i;
         };
 
         sum

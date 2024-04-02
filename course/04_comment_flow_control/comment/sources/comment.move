@@ -2,10 +2,11 @@
 module comment::comment {
 
     // this is comment
+    // this is comment 2
     use sui::tx_context::TxContext;
 
     /// this is docs comment
-    fun init(_ctx: &mut TxContext) {
+    fun init(_: &mut TxContext) {
 
     }
 
