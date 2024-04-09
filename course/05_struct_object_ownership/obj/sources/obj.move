@@ -1,11 +1,11 @@
 module obj::obj {
+    use sui::object::UID;
 
-
-    struct People
-
-
-    fun init(ctx: &mut TxContext) {
+    public struct People has key {
+        id: UID,
+        gender: u8,
     }
 
+    fun init(ctx: &mut TxContext) {}
 }
 

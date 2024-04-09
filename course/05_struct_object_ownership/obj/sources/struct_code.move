@@ -14,8 +14,19 @@ module obj::struct_code {
         blue:u8
     }
 
+    public fun delete_color(color:Color){
+        let Color{ red,green,blue} = Color;
+
+    }
 
     fun init(_ctx: &mut TxContext) {
+        let color = Color{
+            red:1,
+            green:2,
+            blue:3
+        };
+
+        delete_color(color);
     }
 
 }
