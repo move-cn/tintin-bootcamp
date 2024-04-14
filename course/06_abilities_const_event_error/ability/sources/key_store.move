@@ -10,6 +10,11 @@ module ability::key_store {
         age:u8,
     }
 
+    public struct HolderStore has key {
+        id:UID,
+        st: KeyStore
+    }
+
     public fun mint(ctx:&mut TxContext){
         let only = KeyStore{
             id:object::new(ctx),

@@ -10,7 +10,8 @@ module ability::not_any {
         let  not = NotAny{
             age:10
         };
-        delete(not);
+       delete(not);
+        //let NotAny{age} = not;
     }
 
 

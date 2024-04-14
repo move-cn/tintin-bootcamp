@@ -12,7 +12,7 @@ module ability::debugs {
         };
         print(&p);
 
-        let int10:u32 = 10;
+        let int10: u32 = 10;
         print(&int10);
 
     }

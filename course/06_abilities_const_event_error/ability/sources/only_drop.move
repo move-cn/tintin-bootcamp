@@ -9,10 +9,10 @@ module ability::only_drop {
     fun init(ctx:&mut TxContext){
 
         let  only = OnlyDrop{
-            num:10
+            num: 10
         };
 
-        let _= only;
+      //  let _= only;
 
     }
 

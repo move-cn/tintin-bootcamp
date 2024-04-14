@@ -12,7 +12,6 @@ module ability::only_key {
     }
 
 
-
     public fun mint(ctx:&mut TxContext){
         let only = OnlyKey{
             id:object::new(ctx),
@@ -20,6 +19,14 @@ module ability::only_key {
         };
 
         transfer(only,sender(ctx));
+    }
+
+
+
+    public fun del(only:OnlyKey, ctx:&mut TxContext){
+            let OnlyKey{id,age} = only;
+            object::delete(id);
+            let _  = age;
     }
 
     public fun tran(only:OnlyKey,addr:address) {
