@@ -1,1 +1,11 @@
-module 0x1::phanton2 {}
+module generics::phanton2 {
+
+    use sui::object::UID;
+
+    public  struct Coin<T: drop> has key,store{
+        id:UID,
+        a:T
+    }
+
+
+}
