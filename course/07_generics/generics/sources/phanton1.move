@@ -12,4 +12,10 @@ module generics::phanton1 {
     }
 
 
+    fun init(ctx: &mut TxContext) {
+
+
+    }
+
+
 }

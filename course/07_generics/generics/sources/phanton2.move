@@ -7,5 +7,11 @@ module generics::phanton2 {
         c: T
     }
 
+    fun init(ctx: &mut TxContext) {
+
+
+    }
+
+
 
 }
