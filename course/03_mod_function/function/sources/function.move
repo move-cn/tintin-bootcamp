@@ -1,8 +1,9 @@
 module function::function {
 
-    fun init(_:&mut TxContext){
+    use sui::transfer::{transfer, public_transfer, share_object, public_share_object};
 
-    }
+    fun init(_:&mut TxContext){
+public_share_object()    }
 
 
     fun a(){

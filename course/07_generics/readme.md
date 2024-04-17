@@ -51,7 +51,7 @@ module generics::obj_generics {
 
 直觉是，如果允许容器包含一个不遵循它所遵循的相同规则的类型，容器将违反其自身的能力。 如果盒子里的东西不能被储存，那盒子怎么能被储存呢？
 
-我们将在下一节中看到，在某些情况下，可以使用一种称为`phantom` 的特殊关键字来绕过此规则。
+在某些情况下，可以使用一种称为`phantom` 的特殊关键字来绕过此规则。
 
 
 ### 在函数中使用Generics
@@ -154,7 +154,7 @@ public fun new_pair<T, U>(first: T, second: U): Pair<T, U> {
 
 在上面的示例中，是具有两个类型参数和Pair的泛型类型，并且该 函数是具有两个类型参数和的泛型函​​数。该函数返回具有给定值的 a。类型参数的顺序很重要，它应该与类型签名中类型参数的顺序匹配。TUnew_pairTUPair
 
-```shell
+```rust
 #[test]
 fun test_generic() {
 // these three lines are equivalent
@@ -199,10 +199,10 @@ let pair2: Pair<bool, u8> = new_pair(true, 10u8);
 ```rust
 /// A user record with name, age, and some generic metadata
 public struct User<T> {
-name: String,
-age: u8,
-/// Varies depending on application.
-metadata: T,
+    name: String,
+    age: u8,
+    /// Varies depending on application.
+    metadata: T,
 }
 ```
 
@@ -211,27 +211,27 @@ metadata: T,
 ```rust
 /// Updates the name of the user.
 public fun update_name<T>(user: &mut User<T>, name: String) {
-user.name = name;
+    user.name = name;
 }
 
 /// Updates the age of the user.
 public fun update_age<T>(user: &mut User<T>, age: u8) {
-user.age = age;
+    user.age = age;
 }
 ```
 
-虚拟类型参数
+phantom 类型参数
 在某些情况下，您可能希望使用未在该类型的字段或方法中使用的类型参数来定义泛型类型。这称为幻像类型参数。当您想要定义可以容纳任何其他类型的类型，但想要对类型参数强制执行一些约束时，幻像类型参数非常有用。
 ```rust
 /// A generic type with a phantom type parameter.
 public struct Coin<phantom T> {
-value: u64
+    value: u64
 }
 ```
 
 这里的类型Coin不包含任何使用类型参数的字段或方法T。它用于区分不同类型的硬币，并对类型参数强制执行一些约束T。
 
-```shell
+```rust
 public struct USD {}
 public struct EUR {}
 
@@ -254,12 +254,12 @@ let coin2: Coin<EUR> = Coin { value: 20 };
 ```rust
 /// A generic type with a type parameter that has the `drop` ability.
 public struct Droppable<T: drop> {
-value: T,
+    value: T,
 }
 
 /// A generic struct with a type parameter that has the `copy` and `drop` abilities.
 public struct CopyableDroppable<T: copy + drop> {
-value: T, // T must have the `copy` and `drop` abilities
+    value: T, // T must have the `copy` and `drop` abilities
 }
 ```
 
@@ -291,62 +291,73 @@ fun test_constraints() {
 
 通用函数
 函数的类型参数放置在函数名称之后和（值）参数列表之前。以下代码定义了一个通用标识函数，它接受任何类型的值并返回该值不变。
-
+```rust
 fun id<T>(x: T): T {
 // this type annotation is unnecessary but valid
-(x: T)
+    (x: T)
 }
+```
+
 定义后，类型参数T可以在参数类型、返回类型和函数体内使用。
 
 通用结构
 结构体的类型参数放置在结构体名称之后，可用于命名字段的类型。
-
+```rust
 public struct Foo<T> has copy, drop { x: T }
 
 public struct Bar<T1, T2> has copy, drop {
-x: T1,
-y: vector<T2>,
+    x: T1,
+    y: vector<T2>,
 }
+```
+
 请注意，不必使用类型参数
 
 类型参数
 调用泛型函数
 调用泛型函数时，可以在一对尖括号括起来的列表中指定函数类型形参的类型实参。
-
+```rust
 fun foo() {
-let x = id<bool>(true);
+    let x = id<bool>(true);
 }
+```
+
 如果您不指定类型参数，Move 的类型推断将为您提供它们。
 
 使用通用结构
 类似地，在构造或析构泛型类型的值时，可以为结构的类型参数附加一系列类型实参。
-
+```rust
 fun foo() {
-// type arguments on construction
-let foo = Foo<bool> { x: true };
-let bar = Bar<u64, u8> { x: 0, y: vector<u8>[] };
-
-    // type arguments on destruction
-    let Foo<bool> { x } = foo;
-    let Bar<u64, u8> { x, y } = bar;
-}
+    // type arguments on construction
+    let foo = Foo<bool> { x: true };
+    let bar = Bar<u64, u8> { x: 0, y: vector<u8>[] };
+    
+        // type arguments on destruction
+        let Foo<bool> { x } = foo;
+        let Bar<u64, u8> { x, y } = bar;
+    }
+```
 在任何情况下，如果您不指定类型参数，Move 的类型推断都会为您提供它们。
 
 类型参数不匹配
 如果您指定类型参数并且它们与提供的实际值冲突，则会给出错误：
-
+```rust
 fun foo() {
-let x = id<u64>(true); // ERROR! true is not a u64
+    let x = id<u64>(true); // ERROR! true is not a u64
 }
+```
+
 类似地：
-
+```rust
 fun foo() {
-let foo = Foo<bool> { x: 0 }; // ERROR! 0 is not a bool
-let Foo<address> { x } = foo; // ERROR! bool is incompatible with address
+    let foo = Foo<bool> { x: 0 }; // ERROR! 0 is not a bool
+    let Foo<address> { x } = foo; // ERROR! bool is incompatible with address
 }
+```
+
 类型推断
 在大多数情况下，Move 编译器将能够推断类型参数，因此您不必显式写下它们。如果我们省略类型参数，上面的示例将如下所示：
-
+```rust
 fun foo() {
 let x = id(true);
 //        ^ <bool> is inferred
@@ -357,8 +368,10 @@ let x = id(true);
     let Foo { x } = foo;
     //     ^ <bool> is inferred
 }
-注意：当编译器无法推断类型时，您需要手动注释它们。一种常见的情况是调用仅出现在返回位置的类型参数的函数。
+```
 
+注意：当编译器无法推断类型时，您需要手动注释它们。一种常见的情况是调用仅出现在返回位置的类型参数的函数。
+```move
 module a::m {
 
     fun foo() {
@@ -369,49 +382,63 @@ module a::m {
         //            ^~~~~ Must annotate manually in this case.
     }
 }
+```
+
 请注意，这些情况有点人为，因为vector[]从未使用过，因此，Move 的类型推断无法推断类型。
 
 但是，如果稍后在该函数中使用该值，编译器将能够推断出类型：
-
+```rust
 module a::m {
 fun foo() {
-let v = vector[];
-//            ^ <u64> is inferred
-vector::push_back(&mut v, 42);
-//               ^ <u64> is inferred
+    let v = vector[];
+    //            ^ <u64> is inferred
+    vector::push_back(&mut v, 42);
+    //               ^ <u64> is inferred
+    }
 }
-}
-整数
-在 Move 中，整数类型u8、u16、u32、u64、u128和u256都是不同的类型。然而，这些类型中的每一种都可以使用相同的数值语法来创建。换句话说，如果未提供类型后缀，编译器将根据值的用法推断整数类型。
+```
 
+### 整数
+在 Move 中，整数类型u8、u16、u32、u64、u128和u256都是不同的类型。然而，这些类型中的每一种都可以使用相同的数值语法来创建。换句话说，如果未提供类型后缀，编译器将根据值的用法推断整数类型。
+```rust
 let x8: u8 = 0;
 let x16: u16 = 0;
 let x32: u32 = 0;
 let x64: u64 = 0;
 let x128: u128 = 0;
 let x256: u256 = 0;
-如果该值未在需要特定整数类型的上下文中使用，u64则将其视为默认值。
+```
 
+如果该值未在需要特定整数类型的上下文中使用，u64则将其视为默认值。
+```rust
 let x = 0;
 //      ^ u64 is used by default
-但是，如果该值对于推断的类型太大，则会给出错误
+```
 
+但是，如果该值对于推断的类型太大，则会给出错误
+```rust
 let i: u8 = 256; // ERROR!
 //          ^^^ too large for u8
 let x = 340282366920938463463374607431768211454;
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ too large for u64
-如果数字太大，您可能需要显式注释它
+```
 
+如果数字太大，您可能需要显式注释它
+```rust
 let x = 340282366920938463463374607431768211454u128;
 //                                             ^^^^ valid!
+```
+
 未使用的类型参数
 对于结构体定义，未使用的类型参数是指未出现在结构体中定义的任何字段中的类型参数，但会在编译时静态检查。 Move 允许未使用的类型参数，因此以下结构定义有效：
-
+```rust
 public struct Foo<T> {
-foo: u64
+    foo: u64
 }
-这在对某些概念进行建模时非常方便。这是一个例子：
+```
 
+这在对某些概念进行建模时非常方便。这是一个例子：
+```rust
 module a::m {
 // Currency Specifiers
 public struct A {}
@@ -437,6 +464,8 @@ public struct B {}
         mint_generic(value)
     }
 }
+```
+
 在此示例中，Coin<Currency>是类型参数的通用类型Currency，它指定硬币的货币，并允许通用地针对任何货币或具体地针对特定货币编写代码。即使Currency类型参数没有出现在 中定义的任何字段中，这种通用性也适用Coin。
 
 虚拟类型参数
@@ -446,14 +475,16 @@ public struct B {}
 
 幻像类型参数解决了这个问题。未使用的类型参数可以标记为幻像类型参数，它们不参与结构体的能力推导。这样，在派生泛型类型的能力时，不会考虑幻像类型参数的实参，从而避免了虚假能力注释的需要。为了使这个宽松的规则合理，Move 的类型系统保证声明为 的参数phantom要么在结构定义中根本不使用，要么仅用作也声明为 的类型参数的实参phantom。
 
-宣言
+
 phantom在结构定义中，可以通过在声明前添加关键字将类型参数声明为幻像。
-
+```rust
 public struct Coin<phantom Currency> has store {
-value: u64
+    value: u64
 }
-如果类型参数被声明为幻像，我们就说它是幻像类型参数。定义结构时，Move 的类型检查器确保每个幻像类型参数不在结构定义内使用，或者仅用作幻像类型参数的实参。
+```
 
+如果类型参数被声明为幻像，我们就说它是幻像类型参数。定义结构时，Move 的类型检查器确保每个幻像类型参数不在结构定义内使用，或者仅用作幻像类型参数的实参。
+```rust
 public struct S1<phantom T1, T2> { f: u64 }
 //               ^^^^^^^ valid, T1 does not appear inside the struct definition
 
@@ -467,22 +498,29 @@ public struct S1<phantom T> { f: T }
 public struct S2<T> { f: T }
 public struct S3<phantom T> { f: S2<T> }
 //               ^^^^^^^ ERROR!     ^ Not a phantom position
+```
+
+
 更正式地说，如果某个类型用作幻像类型形参的实参，我们就说该类型出现在幻像位置。有了这个定义，正确使用幻像参数的规则可以指定如下：幻像类型参数只能出现在幻像位置。
 
 请注意，指定phantom不是必需的，但如果类型参数可以phantom但未标记为此类，则编译器将发出警告。
 
 实例化
 实例化结构体时，在派生结构体功能时将排除幻像参数的实参。例如，考虑以下代码：
-
+```rust
 public struct S<T1, phantom T2> has copy { f: T1 }
 public struct NoCopy {}
 public struct HasCopy has copy {}
+```
+
 现在考虑类型S<HasCopy, NoCopy>。由于S是用 定义的copy，并且所有非幻象参数都有copy那么S<HasCopy, NoCopy>也有copy。
 
 具有能力限制的幻像类型参数
 能力约束和虚拟类型参数是正交特征，因为虚拟参数可以用能力约束来声明。
-
+```rust
 public struct S<phantom T: copy> {}
+```
+
 当实例化具有能力约束的幻像类型参数时，类型实参必须满足该约束，即使该参数是幻像的。通常的限制适用，并且T 只能使用具有 的参数进行实例化copy。
 
 约束条件
@@ -492,17 +530,21 @@ public struct S<phantom T: copy> {}
 
 声明约束
 可以使用以下语法对类型参数施加约束。
-
+```rust
 // T is the name of the type parameter
 T: <ability> (+ <ability>)*
-可以<ability>是四种能力中的任何一种，并且一个类型参数可以同时受到多种能力的约束。因此以下所有内容都是有效的类型参数声明：
+```
 
+可以<ability>是四种能力中的任何一种，并且一个类型参数可以同时受到多种能力的约束。因此以下所有内容都是有效的类型参数声明：
+```rust
 T: copy
 T: copy + drop
 T: copy + drop + store + key
+```
+
 验证约束
 在实例化站点检查约束
-
+```rust
 public struct Foo<T: copy> { x: T }
 
 public struct Bar { x: Foo<u8> }
@@ -510,25 +552,29 @@ public struct Bar { x: Foo<u8> }
 
 public struct Baz<T> { x: Foo<T> }
 //                            ^ ERROR! T does not have 'copy'
-对于函数也类似
+```
 
+对于函数也类似
+```rust
 fun unsafe_consume<T>(x: T) {
-// ERROR! x does not have 'drop'
+    // ERROR! x does not have 'drop'
 }
 
 fun consume<T: drop>(x: T) {
-// valid, x will be dropped automatically
+    // valid, x will be dropped automatically
 }
 
 public struct NoAbilities {}
 
 fun foo() {
-let r = NoAbilities {};
-consume<NoAbilities>(NoAbilities);
-//      ^^^^^^^^^^^ ERROR! NoAbilities does not have 'drop'
+    let r = NoAbilities {};
+    consume<NoAbilities>(NoAbilities);
+    //      ^^^^^^^^^^^ ERROR! NoAbilities does not have 'drop'
 }
-还有一些类似的例子，但是copy
+```
 
+还有一些类似的例子，但是copy
+```rust
 fun unsafe_double<T>(x: T) {
 (copy x, x)
 // ERROR! T does not have 'copy'
@@ -545,34 +591,38 @@ let r = NoAbilities {};
 double<NoAbilities>(r)
 //     ^ ERROR! NoAbilities does not have 'copy'
 }
+```
+
 有关更多信息，请参阅有关条件能力和泛型类型的能力部分 。
 
 递归的限制
 递归结构
 泛型结构不能直接或间接包含相同类型的字段，即使具有不同的类型参数也是如此。以下所有结构定义均无效：
-
+```rust
 public struct Foo<T> {
-x: Foo<u64> // ERROR! 'Foo' containing 'Foo'
+    x: Foo<u64> // ERROR! 'Foo' containing 'Foo'
 }
 
 public struct Bar<T> {
-x: Bar<T> // ERROR! 'Bar' containing 'Bar'
+    x: Bar<T> // ERROR! 'Bar' containing 'Bar'
 }
 
 // ERROR! 'A' and 'B' forming a cycle, which is not allowed either.
 public struct A<T> {
-x: B<T, u64>
+    x: B<T, u64>
 }
 
 public struct B<T1, T2> {
-x: A<T1>
-y: A<T2>
+    x: A<T1>
+    y: A<T2>
 }
-高级主题：类型级递归
+```
+
+### 高级主题：类型级递归
 Move 允许递归调用通用函数。然而，当与泛型结构结合使用时，在某些情况下可能会创建无限数量的类型，并且允许这意味着给编译器、虚拟机和其他语言组件增加不必要的复杂性。因此，这样的递归是被禁止的。
 
 此限制将来可能会放宽，但就目前而言，以下示例应该让您了解什么是允许的，什么是不允许的。
-
+```rust
 module a::m {
 public struct A<T> {}
 
@@ -588,10 +638,12 @@ public struct A<T> {}
         foo<A<u64>>();
     }
 }
-不允许：
+```
 
+不允许：
+```move
 module a::m {
-public struct A<T> {}
+    public struct A<T> {}
 
     // Infinitely many types -- NOT allowed.
     // error!
@@ -600,9 +652,11 @@ public struct A<T> {}
         foo<Foo<T>>();
     }
 }
+```
+
 同样，不允许：
 
-
+```move
 module a::n {
 public struct A<T> {}
 
@@ -620,8 +674,10 @@ public struct A<T> {}
         foo<T1, A<T2>>();
     }
 }
-请注意，类型级别递归的检查基于对调用站点的保守分析，并且不考虑控制流或运行时值。
+```
 
+请注意，类型级别递归的检查基于对调用站点的保守分析，并且不考虑控制流或运行时值。
+```move
 module a::m {
 public struct A<T> {}
 
@@ -631,5 +687,7 @@ public struct A<T> {}
         if (n > 0) foo<A<T>>(n - 1);
     }
 }
+```
+
 上面示例中的函数在技术上将针对任何给定输入终止，因此仅创建有限多个类型，但 Move 的类型系统仍然认为它无效。
 

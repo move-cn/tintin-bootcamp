@@ -4,7 +4,7 @@ module generics::phanton2 {
 
     public  struct Coin<T: drop> has key,store{
         id:UID,
-        a:T
+        c: T
     }
 
 
