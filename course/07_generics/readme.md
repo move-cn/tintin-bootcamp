@@ -1,6 +1,10 @@
+## 资料
+- [PPT](https://docs.google.com/presentation/d/1mTSYySPi0fClm7_RRryrEC4pkrb8gip-z6ziJxP8Hwc)
+
+
 # Generics 范型
 
-Generics 在计算机术语中被称为范型，引用 [Rust Book](https://doc.rust-lang.org/stable/book/ch10-00-generics.html) 对于泛型的定义：*泛型是具体类型或其他属性的抽象替代品*。范型使得在编写 Sui Move 代码时提供更强的灵活性，并避免逻辑重复。
+Generics 在计算机术语中被称为范型，引用 [Rust Book](https://doc.rust-lang.org/stable/book/ch10-00-generics.html) 对于泛型的定义：*泛型是具体类型或其他属性的抽象替代品*。范型使得在编写 Move 代码时提供更强的灵活性，并避免逻辑重复。
 
 实际上，泛型允许我们只编写单个函数，写一套逻辑，而应用于任何类型上。所以这种函数也被称为模板 ——个可以应用于任何类型的模板处理程序。
 
