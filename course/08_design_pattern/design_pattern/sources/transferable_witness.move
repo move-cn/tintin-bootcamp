@@ -7,7 +7,7 @@ module design_pattern::transferable_witness {
     public struct WITNESS has store, drop {}
 
     /// Carries the witness type. Can be used only once to get a Witness.
-   public struct WitnessCarrier has key { id: UID, witness: WITNESS }
+    public struct WitnessCarrier has key { id: UID, witness: WITNESS }
 
     /// Send a `WitnessCarrier` to the module publisher.
     fun init(ctx: &mut TxContext) {
