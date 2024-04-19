@@ -12,6 +12,8 @@ module design_pattern::mycoin {
     /// Module initializer is called once on module publish. A treasury
     /// cap is sent to the publisher, who then controls minting and burning
     fun init(witness: MYCOIN, ctx: &mut TxContext) {
+     //   let win = MYCOIN{};
+
         let (treasury, metadata) = coin::create_currency(
             witness,
             6,                // decimals

@@ -25,7 +25,6 @@ module design_pattern::hot_potato {
     /// Cannot be stored, owned or dropped - has to be used to select one of the
     /// options for payment: `trade_in` or `pay_full`.
     public
-
     struct Receipt { price: u64 }
 
     /// Get a phone, pay later.
@@ -41,6 +40,7 @@ module design_pattern::hot_potato {
             Receipt { price }
         )
     }
+
 
     /// Pay the full price for the phone and consume the `Receipt`.
     public fun pay_full(receipt: Receipt, payment: Coin<SUI>) {

@@ -34,9 +34,16 @@ module design_pattern::peace_guardian {
     /// code is called only once. With `Witness` pattern it is
     /// often the best practice.
     fun init(ctx: &mut TxContext) {
+        let peace1 = PEACE{};
+        let peace2 = PEACE{};
         transfer::public_transfer(
-            witness::create_guardian(PEACE {}, ctx),
+            witness::create_guardian(peace1, ctx),
             tx_context::sender(ctx)
+        );
+
+        transfer::public_transfer(
+            witness::create_guardian(peace2, ctx),
+            @0x1,
         )
     }
 }
